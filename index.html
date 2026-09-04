@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
+    <title>Polyglot Mastery | Code Interface</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: light;
+            --bg-color: #ffffff;
+            --text-main: #000000;
+            --text-muted: #666666;
+            --border-color: rgba(0, 0, 0, 0.15); /* Полупрозрачные границы */
+            --accent-color: #000000;
+            --transition: all 0.25s ease;
+        }
+
+        html, body {
+            background-color: var(--bg-color) !important;
+            color: var(--text-main) !important;
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Канвас для динамичных звезд */
+        #starCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1; 
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            position: relative;
+            z-index: 2; 
+        }
+
+        /* Эффект матового стекла для шапки */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+            padding-bottom: 30px;
+            background: rgba(255, 255, 255, 0.4) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 8px;
+            padding-top: 20px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: -0.05em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-muted) !important;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Эффект матового стекла для карточек языков */
+        .accordion-item {
+            background: rgba(255, 255, 255, 0.3) !important;
+            border: 1px solid var(--border-color) !important;
+            border-radius: 8px; 
+            overflow: hidden;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05); /* Мягкая тень для объема */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        /* Заголовок аккордеона тоже полупрозрачный, но темный для контраста */
+        .accordion-header {
+            padding: 20px 25px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            background: rgba(0, 0, 0, 0.75) !important;
+            color: #ffffff !important;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .accordion-content {
+            padding: 25px;
+            background: transparent !important; /* Полностью прозрачный фон внутри, чтобы работал родительский блюр */
+        }
+
+        /* Вступительный текст - стекло */
+        .language-intro {
+            background: rgba(255, 255, 255, 0.4) !important;
+            border: 1px dashed var(--border-color);
+            border-left: 4px solid rgba(0, 0, 0, 0.5);
+            padding: 25px;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            border-radius: 4px;
+        }
+
+        .bilingual-text {
+            margin-bottom: 15px;
+        }
+
+        .bilingual-text:last-child {
+            margin-bottom: 0;
+        }
+
+        .bilingual-text .ru {
+            font-weight: 600;
+            color: var(--text-main) !important;
+            display: block;
+        }
+
+        .bilingual-text .target-lang {
+            font-weight: 400;
+            color: var(--text-muted) !important;
+            font-style: italic;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .highlight {
+            font-weight: 600;
+            color: #d35400 !important;
+        }
+
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        /* Карточки уровней - стекло */
+        .level-card {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.45) !important;
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .level-card:hover {
+            border-color: rgba(0, 0, 0, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            background: rgba(255, 255, 255, 0.6) !important;
+        }
+
+        .level-badge {
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+            padding: 2px 8px;
+            background: rgba(255, 255, 255, 0.8) !important;
+            border: 1px solid rgba(0, 0, 0, 0.2) !important;
+            border-radius: 2px;
+            backdrop-filter: blur(4px);
+        }
+
+        .badge-free {
+            color: var(--text-main) !important;
+        }
+
+        .badge-pro {
+            background: rgba(0, 0, 0, 0.8) !important;
+            color: #ffffff !important;
+        }
+
+        .level-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--text-main) !important;
+        }
+
+        .media-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap; 
+        }
+
+        /* Кнопки тоже стеклянные */
+        .btn {
+            flex: 1 1 auto;
+            padding: 10px 8px; 
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.5) !important;
+            color: var(--text-main) !important;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+            text-align: center;
+            text-decoration: none;
+            backdrop-filter: blur(2px);
+        }
+
+        .btn:hover {
+            border-color: rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        .btn-primary {
+            background: rgba(0, 0, 0, 0.75) !important;
+            color: #ffffff !important;
+            border-color: transparent;
+        }
+
+        .btn-primary:hover {
+            background: rgba(0, 0, 0, 0.9) !important;
+            color: #ffffff !important;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .language-intro { padding: 15px; }
+            .accordion-header { padding: 15px 20px; font-size: 1rem; }
+            .level-grid { grid-template-columns: 1fr; }
+            .media-buttons { flex-direction: column; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="starCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <h1>Абсолютное погружение</h1>
+            <p class="subtitle">/> Системный подход к освоению языков_</p>
+        </header>
+
+        <section class="accordion">
+            
+            <div class="accordion-item">
+                <div class="accordion-header">> Английский язык (English)</div>
+                <div class="accordion-content">
+                    
+                    <div class="language-intro">
+                        <div class="bilingual-text">
+                            <span class="ru">Больше не нужно искать лучший способ выучить английский!</span>
+                            <span class="target-lang">Stop searching for the best way to learn English!</span>
+                        </div>
+                        <div class="bilingual-text">
+                            <span class="ru">Просто слушай и будешь знать. Всё, что от тебя нужно — делать это каждый день.</span>
+                            <span class="target-lang">Just listen and you will know. All you need is to do it every day.</span>
+                        </div>
+                        <div class="bilingual-text">
+                            <span class="ru">Все уровни английского. Автор перепробовал тысячу способов, честно.</span>
+                            <span class="target-lang">All levels of English. The author has tried a thousand methods, honestly.</span>
+                        </div>
+                        <div class="bilingual-text">
+                            <span class="ru">Это лучшее, это всё.</span>
+                            <span class="target-lang">This is the best, that's all.</span>
+                        </div>
+                        <hr style="border: none; border-top: 1px dashed var(--border-color); margin: 15px 0;">
+                        <div class="bilingual-text">
+                            <span class="ru">Каждый день включай эту запись. Пока слушаешь, читай это одновременно.</span>
+                            <span class="target-lang">Play this recording every day. While listening, read this simultaneously.</span>
+                        </div>
+                        <div class="bilingual-text" style="margin-bottom: 0;">
+                            <span class="ru highlight">Удачи! Уровень А1 бесплатный!</span>
+                            <span class="target-lang highlight">Good luck! Level A1 is free!</span>
+                        </div>
+                    </div>
+
+                    <div class="level-grid">
+                        <div class="level-card">
+                            <span class="level-badge badge-free">Free</span>
+                            <div class="level-title">A1</div>
+                            <div class="media-buttons">
+                                <button class="btn btn-primary">▶ Аудио</button>
+                                <button class="btn">Текст</button>
+                            </div>
+                        </div>
+                        <div class="level-card">
+                            <span class="level-badge badge-pro">Pro</span>
+                            <div class="level-title">A2</div>
+                            <div class="media-buttons">
+                                <button class="btn" style="width:100%">Доступ</button>
+                            </div>
+                        </div>
+                        <div class="level-card">
+                            <span class="level-badge badge-pro">Pro</span>
+                            <div class="level-title">B1</div>
+                            <div class="media-buttons">
+                                <button class="btn" style="width:100%">Доступ</button>
+                            </div>
+                        </div>
+                        <div class="level-card">
+                            <span class="level-badge badge-pro">Pro</span>
+                            <div class="level-title">B2</div>
+                            <div class="media-buttons">
+                                <button class="btn" style="width:100%">Доступ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">> Испанский язык (Español)</div>
+                <div class="accordion-content">
+                    
+                    <div class="language-intro">
+                        <div class="bilingual-text">
+                            <span class="ru">Больше не нужно искать лучший способ выучить испанский!</span>
+                            <span class="target-lang">¡No hay que buscar más la mejor opción para aprender español!</span>
+                        </div>
+                        <div class="bilingual-text">
+                            <span class="ru">Просто слушай и будешь знать. Всё, что от тебя нужно — делать это каждый день.</span>
+                            <span class="target-lang">Solo escucha y lo sabrás. Todo lo que necesitas es hacerlo cada día.</span>
+                        </div>
+                        <div class="bilingual-text">
+                            <span class="ru">Все уровни испанского. Автор перепробовал тысячу способов, честно.</span>
+                            <span class="target-lang">Son todos los niveles del español. El autor probó mil métodos, de verdad.</span>
+                        </div>
+                        <div class="bilingual-text">
+                            <span class="ru">Это лучшее, это всё.</span>
+                            <span class="target-lang">Este es el mejor, eso es todo.</span>
+                        </div>
+                        <hr style="border: none; border-top: 1px dashed var(--border-color); margin: 15px 0;">
+                        <div class="bilingual-text">
+                            <span class="ru">Каждый день включай эту запись. Пока слушаешь, читай это одновременно.</span>
+                            <span class="target-lang">Cada día reproduce este audio. Mientras escuchas, léelo al mismo tiempo.</span>
+                        </div>
+                        <div class="bilingual-text" style="margin-bottom: 0;">
+                            <span class="ru highlight">Удачи! Уровень А1 бесплатный!</span>
+                            <span class="target-lang highlight">¡Que tengas buena suerte! ¡El nivel A1 es gratis!</span>
+                        </div>
+                    </div>
+
+                    <div class="level-grid">
+                        <div class="level-card">
+                            <span class="level-badge badge-free">Free</span>
+                            <div class="level-title">A1</div>
+                            <div class="media-buttons">
+                                <button class="btn btn-primary">▶ Аудио</button>
+                                <a href="a1-spanish.html" class="btn">Правила А1: каждый день</a>
+                                <a href="a1-spanish-words.html" class="btn">Слова А1: каждый день</a>
+                                <a href="a1-practice.html" class="btn">Практика А1: каждый день</a>
+                            </div>
+                        </div>
+                        <div class="level-card">
+                            <span class="level-badge badge-pro">Pro</span>
+                            <div class="level-title">A2</div>
+                            <div class="media-buttons">
+                                <button class="btn" style="width:100%">Доступ</button>
+                            </div>
+                        </div>
+                        <div class="level-card">
+                            <span class="level-badge badge-pro">Pro</span>
+                            <div class="level-title">B1</div>
+                            <div class="media-buttons">
+                                <button class="btn" style="width:100%">Доступ</button>
+                            </div>
+                        </div>
+                        <div class="level-card">
+                            <span class="level-badge badge-pro">Pro</span>
+                            <div class="level-title">B2</div>
+                            <div class="media-buttons">
+                                <button class="btn" style="width:100%">Доступ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <div class="accordion-header">> Французский (Français)</div>
+                <div class="accordion-content">
+                    
+                    <div class="language-intro">
+                        <div class="bilingual-text">
+                            <span class="ru">Больше не нужно искать лучший способ выучить французский!</span>
+                            <span class="target-lang">Plus besoin de chercher la meilleure façon d'apprendre le français !</span>
+                        </div>
+                        <div class="bilingual-text">
+                            <span class="ru">Просто слушай и будешь знать. Всё, что от тебя нужно — делать это каждый день.</span>
+                            <span class="target-lang">Écoute simplement et tu sauras. Tout ce que tu dois faire, c'est de le faire tous les jours.</span>
+                        </div>
+                        <div class="bilingual-text">
+                            <span class="ru">Все уровни французского. Автор перепробовал тысячу способов, честно.</span>
+                            <span class="target-lang">Tous les niveaux de français. L'auteur a essayé mille méthodes, honnêtement.</span>
+                        </div>
+                        <div class="bilingual-text">
+                            <span class="ru">Это лучшее, это всё.</span>
+                            <span class="target-lang">C'est le meilleur, c'est tout.</span>
+                        </div>
+                        <hr style="border: none; border-top: 1px dashed var(--border-color); margin: 15px 0;">
+                        <div class="bilingual-text">
+                            <span class="ru">Каждый день включай эту запись. Пока слушаешь, читай это одновременно.</span>
+                            <span class="target-lang">Lance cet enregistrement chaque jour. Pendant que tu écoutes, lis ceci en même temps.</span>
+                        </div>
+                        <div class="bilingual-text" style="margin-bottom: 0;">
+                            <span class="ru highlight">Удачи! Уровень А1 бесплатный!</span>
+                            <span class="target-lang highlight">Bonne chance ! Le niveau A1 est gratuit !</span>
+                        </div>
+                    </div>
+
+                    <div class="level-grid">
+                        <div class="level-card">
+                            <span class="level-badge badge-free">Free</span>
+                            <div class="level-title">A1</div>
+                            <div class="media-buttons">
+                                <button class="btn btn-primary">▶ Аудио</button>
+                                <button class="btn">Текст</button>
+                            </div>
+                        </div>
+                        <div class="level-card">
+                            <span class="level-badge badge-pro">Pro</span>
+                            <div class="level-title">A2</div>
+                            <div class="media-buttons">
+                                <button class="btn" style="width:100%">Доступ</button>
+                            </div>
+                        </div>
+                        <div class="level-card">
+                            <span class="level-badge badge-pro">Pro</span>
+                            <div class="level-title">B1</div>
+                            <div class="media-buttons">
+                                <button class="btn" style="width:100%">Доступ</button>
+                            </div>
+                        </div>
+                        <div class="level-card">
+                            <span class="level-badge badge-pro">Pro</span>
+                            <div class="level-title">B2</div>
+                            <div class="media-buttons">
+                                <button class="btn" style="width:100%">Доступ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('starCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        // Яркие, сочные цвета для неонового эффекта
+        const starColors = ['#FF003C', '#0055FF', '#FFB300', '#00C853', '#AA00FF', '#00E5FF'];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.reset(true);
+            }
+
+            reset(initial = false) {
+                this.x = Math.random() * width;
+                this.y = initial ? Math.random() * height : height + 10;
+                
+                this.size = Math.random() * 2 + 0.5; 
+                
+                this.speedY = -(Math.random() * 1.5 + 0.5); 
+                this.speedX = (Math.random() - 0.5) * 0.8; 
+                
+                this.color = starColors[Math.floor(Math.random() * starColors.length)];
+                
+                this.angle = Math.random() * Math.PI * 2;
+                this.blinkSpeed = Math.random() * 0.05 + 0.01;
+                this.baseOpacity = Math.random() * 0.5 + 0.2; 
+                this.currentOpacity = this.baseOpacity;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.y < -20) this.reset();
+                if (this.x < -20) this.x = width + 20;
+                if (this.x > width + 20) this.x = -20;
+
+                this.angle += this.blinkSpeed;
+                this.currentOpacity = this.baseOpacity + Math.sin(this.angle) * 0.3;
+                
+                if (this.currentOpacity < 0.1) this.currentOpacity = 0.1; 
+                if (this.currentOpacity > 0.9) this.currentOpacity = 0.9;
+            }
+
+            draw() {
+                ctx.globalAlpha = this.currentOpacity;
+                
+                // Неоновое свечение 
+                ctx.shadowBlur = this.size * 3;
+                ctx.shadowColor = this.color;
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const numStars = 500; 
+            for (let i = 0; i < numStars; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            initStars(); 
+        });
+
+        resize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>
