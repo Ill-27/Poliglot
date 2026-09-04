@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Español A1 | Práctica Diaria</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f4f5f7;
+            --card-bg: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --success: #059669;
+            --success-bg: #d1fae5;
+            --error: #dc2626;
+            --error-bg: #fee2e2;
+            --border: #e5e7eb;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'JetBrains Mono', monospace;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .app-container {
+            background: var(--card-bg);
+            max-width: 700px;
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            padding: 40px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        .header h1 { margin: 0 0 10px 0; font-size: 1.8rem; }
+        .header p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
+
+        .instructions {
+            background: #f8fafc;
+            border-left: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            border-radius: 0 8px 8px 0;
+            line-height: 1.5;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: var(--border);
+            border-radius: 5px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .exercise-card {
+            display: none;
+            animation: slideIn 0.4s ease forwards;
+            flex-grow: 1;
+        }
+
+        .exercise-card.active { display: block; }
+
+        .question-type {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .question-text {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 18px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.2s;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn {
+            background: var(--text-main);
+            color: #fff;
+            border: none;
+            padding: 18px 25px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .btn:hover { background: #374151; }
+        
+        .btn-reveal {
+            background: transparent;
+            color: var(--text-main);
+            border: 2px dashed var(--border);
+        }
+        .btn-reveal:hover { background: #f9fafb; border-color: var(--text-muted); }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            font-weight: 600;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .feedback.correct {
+            background: var(--success-bg);
+            color: var(--success);
+            border-left: 5px solid var(--success);
+        }
+
+        .feedback.incorrect {
+            background: var(--error-bg);
+            color: var(--error);
+            border-left: 5px solid var(--error);
+        }
+
+        .explanation {
+            font-size: 0.95rem;
+            font-weight: 400;
+            margin-top: 10px;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .hidden-answer {
+            display: none;
+            font-size: 1.4rem;
+            color: var(--accent);
+            text-align: center;
+            margin: 20px 0;
+            padding: 25px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .end-screen {
+            text-align: center;
+            padding: 40px 0;
+        }
+        .end-screen h2 { font-size: 2rem; color: var(--accent); margin-bottom: 10px; }
+        .end-screen p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 30px; }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <h1>Práctica A1</h1>
+        <p>Тренировка: 50 случайных заданий на сегодня</p>
+    </div>
+
+    <div class="instructions">
+        🇷🇺 <strong>Правила:</strong> Вводите перевод или пропущенное слово. Для карточек — подумайте и проверьте себя. Если ошибетесь, система объяснит правило.<br><br>
+        🇪🇸 <strong>Reglas:</strong> Escribe la traducción o la palabra que falta. Para las tarjetas: piensa y comprueba. Si fallas, lee la regla.
+    </div>
+
+    <div class="progress-header">
+        <span>Progreso (Прогресс)</span>
+        <span id="progress-text">0 / 50</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+    
+    <div id="exercise-container"></div>
+</div>
+
+<script>
+    // КОНСТАНТА: Количество заданий на один день (сессию)
+    const EXERCISES_PER_SESSION = 50;
+
+    // ГЛОБАЛЬНАЯ БАЗА ЗАДАНИЙ (Охватывает всю грамматику и лексику А1)
+    const allExercisesDatabase = [
+        // === ПРИВЕТСТВИЯ И БАЗА ===
+        { type: "input", label: "Traducción", question: "Добрый день (после 12:00)", answers: ["buenas tardes"], explanation_ru: "Используется с 12:00 до темноты.", explanation_es: "Se usa desde el mediodía hasta anochecer." },
+        { type: "input", label: "Traducción", question: "Спокойной ночи", answers: ["buenas noches"], explanation_ru: "Используется и как 'добрый вечер', и как 'спокойной ночи'.", explanation_es: "Se usa para saludar de noche y despedirse." },
+        { type: "fill", label: "Rellenar", question: "¡Hola! ¿Qué _____? (Как дела?)", answers: ["tal"], explanation_ru: "Устойчивая фраза ¿Qué tal? не меняется.", explanation_es: "La expresión ¿Qué tal? es invariable." },
+        { type: "input", label: "Traducción", question: "Очень приятно (при знакомстве)", answers: ["mucho gusto", "encantado", "encantada"], explanation_ru: "Можно сказать Mucho gusto или Encantado/a.", explanation_es: "Se dice Mucho gusto o Encantado/a." },
+        { type: "input", label: "Traducción", question: "До скорого (Увидимся позже)", answers: ["hasta luego"], explanation_ru: "Hasta — предлог 'до'. Luego — 'потом'.", explanation_es: "Hasta luego es la despedida más común." },
+        
+        // === SER / ESTAR / HAY ===
+        { type: "fill", label: "Gramática", question: "Yo _____ (быть) diseñador gráfico.", answers: ["soy"], explanation_ru: "Профессии всегда с глаголом SER. Артикль не нужен.", explanation_es: "Profesiones van con SER sin artículo." },
+        { type: "fill", label: "Gramática", question: "Ellos _____ (быть) en la oficina hoy.", answers: ["están"], explanation_ru: "Местонахождение — всегда ESTAR.", explanation_es: "Ubicación temporal o permanente va con ESTAR." },
+        { type: "fill", label: "Gramática", question: "Nosotros _____ (быть) casados.", answers: ["estamos"], explanation_ru: "Семейное положение в Испании используется с ESTAR (мы находимся в браке).", explanation_es: "El estado civil va con ESTAR." },
+        { type: "fill", label: "Gramática", question: "Madrid _____ (быть) la capital de España.", answers: ["es"], explanation_ru: "Идентификация и суть вещей — это SER.", explanation_es: "Identificar algo requiere el verbo SER." },
+        { type: "fill", label: "Gramática", question: "¿Dónde _____ (быть) mis llaves?", answers: ["están"], explanation_ru: "Где находятся ключи? Местонахождение = ESTAR.", explanation_es: "Ubicación = ESTAR." },
+        { type: "fill", label: "Gramática", question: "En el salón _____ (имеется) una mesa grande.", answers: ["hay"], explanation_ru: "Когда говорим о наличии (существовании) предмета, используем HAY.", explanation_es: "Para expresar existencia se usa HAY." },
+        
+        // === НАСТОЯЩЕЕ ВРЕМЯ (PRESENTE) - Правильные ===
+        { type: "fill", label: "Verbos", question: "Yo _____ (hablar) español un poco.", answers: ["hablo"], explanation_ru: "Окончание -o для формы Yo.", explanation_es: "Terminación -o para la primera persona." },
+        { type: "fill", label: "Verbos", question: "Tú _____ (comer) mucha pizza.", answers: ["comes"], explanation_ru: "Окончание -es для глаголов на -er на 'ты'.", explanation_es: "Terminación -es para 'tú' en verbos -er." },
+        { type: "fill", label: "Verbos", question: "Nosotros _____ (vivir) en Madrid.", answers: ["vivimos"], explanation_ru: "Окончание -imos для глаголов на -ir на 'мы'.", explanation_es: "Terminación -imos para 'nosotros' en verbos -ir." },
+        { type: "fill", label: "Verbos", question: "Vosotros _____ (trabajar) mucho.", answers: ["trabajáis"], explanation_ru: "Форма vosotros для -ar заканчивается на -áis (не забудьте ударение!).", explanation_es: "Para vosotros: -áis (con tilde)." },
+        { type: "fill", label: "Verbos", question: "Ellos _____ (aprender) rápido.", answers: ["aprenden"], explanation_ru: "Для Ellos окончание -en.", explanation_es: "Terminación -en para 'ellos'." },
+
+        // === НАСТОЯЩЕЕ ВРЕМЯ - Отклоняющиеся и неправильные ===
+        { type: "fill", label: "Verbos", question: "Yo _____ (tener) 25 años.", answers: ["tengo"], explanation_ru: "Возраст выражается глаголом tener (иметь). Форма Yo — неправильная (tengo).", explanation_es: "La edad se expresa con el verbo tener. Yo tengo." },
+        { type: "fill", label: "Verbos", question: "Él _____ (querer) un café con leche.", answers: ["quiere"], explanation_ru: "Querer — глагол с корневой гласной e -> ie.", explanation_es: "Verbo irregular: la 'e' cambia a 'ie'." },
+        { type: "fill", label: "Verbos", question: "Nosotros no _____ (poder) ir a la fiesta.", answers: ["podemos"], explanation_ru: "Poder (o->ue), но форма 'nosotros' всегда правильная: podemos.", explanation_es: "En 'nosotros' no hay cambio vocálico." },
+        { type: "fill", label: "Verbos", question: "Yo _____ (hacer) mis deberes por la tarde.", answers: ["hago"], explanation_ru: "Глагол hacer имеет неправильную форму Yo: hago.", explanation_es: "La primera persona de 'hacer' es 'hago'." },
+        { type: "fill", label: "Verbos", question: "Vosotros _____ (ir) al cine el sábado.", answers: ["vais"], explanation_ru: "Глагол ir (идти/ехать). Формы: voy, vas, va, vamos, vais, van.", explanation_es: "Verbo ir. Vosotros vais." },
+        
+        // === ВОЗВРАТНЫЕ ГЛАГОЛЫ ===
+        { type: "fill", label: "Verbos", question: "Yo _____ (levantarse) a las siete.", answers: ["me levanto"], explanation_ru: "Не забудьте возвратную частицу 'me'.", explanation_es: "Pronombre reflexivo 'me' + levanto." },
+        { type: "fill", label: "Verbos", question: "¿A qué hora _____ (ducharse) tú?", answers: ["te duchas"], explanation_ru: "На 'ты' частица 'te' + duchas.", explanation_es: "Pronombre 'te' para la segunda persona." },
+        { type: "fill", label: "Verbos", question: "Nosotros _____ (llamarse) Juan y María.", answers: ["nos llamamos"], explanation_ru: "Частица 'nos' для мы.", explanation_es: "Pronombre 'nos' + llamamos." },
+
+        // === PRETÉRITO PERFECTO (Прошедшее время) ===
+        { type: "fill", label: "Pasado", question: "Hoy yo _____ (trabajar) desde casa.", answers: ["he trabajado"], explanation_ru: "Маркер 'Hoy' требует Pretérito Perfecto: haber + participio (-ado).", explanation_es: "Marcador 'hoy' = he + participio (-ado)." },
+        { type: "fill", label: "Pasado", question: "Esta mañana tú _____ (comer) una manzana.", answers: ["has comido"], explanation_ru: "Для tú форма haber — 'has', причастие от comer — 'comido'.", explanation_es: "Tú has + comido (-ido)." },
+        { type: "fill", label: "Pasado", question: "Nosotros ya _____ (terminar) el proyecto.", answers: ["hemos terminado"], explanation_ru: "'Ya' (уже) — маркер Pretérito Perfecto. Nosotros hemos + terminado.", explanation_es: "'Ya' requiere Pretérito Perfecto." },
+        { type: "fill", label: "Pasado", question: "Vosotros todavía no _____ (salir) de la oficina.", answers: ["habéis salido"], explanation_ru: "'Todavía no' (еще не) + habéis salido.", explanation_es: "'Todavía no' se usa con Pretérito Perfecto." },
+        
+        // === PRETÉRITO PERFECTO - Неправильные причастия ===
+        { type: "fill", label: "Pasado", question: "¿Qué _____ (hacer) tú hoy?", answers: ["has hecho"], explanation_ru: "Причастие от hacer — неправильное (hecho).", explanation_es: "El participio de hacer es 'hecho'." },
+        { type: "fill", label: "Pasado", question: "Yo no _____ (ver) esa película.", answers: ["he visto"], explanation_ru: "Причастие от ver — неправильное (visto).", explanation_es: "El participio de ver es 'visto'." },
+        { type: "fill", label: "Pasado", question: "Ella _____ (escribir) un correo electrónico.", answers: ["ha escrito"], explanation_ru: "Причастие от escribir — неправильное (escrito).", explanation_es: "El participio de escribir es 'escrito'." },
+        { type: "fill", label: "Pasado", question: "Nosotros _____ (poner) la mesa.", answers: ["hemos puesto"], explanation_ru: "Причастие от poner — неправильное (puesto).", explanation_es: "El participio de poner es 'puesto'." },
+        { type: "fill", label: "Pasado", question: "Yo _____ (volver) a casa temprano hoy.", answers: ["he vuelto"], explanation_ru: "Причастие от volver — неправильное (vuelto).", explanation_es: "El participio de volver es 'vuelto'." },
+
+        // === ЧИСЛА И ВРЕМЯ ===
+        { type: "input", label: "Números", question: "Напишите цифрами или буквами: 15", answers: ["15", "quince"], explanation_ru: "Число 15 — quince.", explanation_es: "El número 15 es quince." },
+        { type: "input", label: "Números", question: "Напишите словом: 50", answers: ["cincuenta"], explanation_ru: "Cincuenta.", explanation_es: "Cincuenta." },
+        { type: "input", label: "Números", question: "Напишите словом: 22", answers: ["veintidós", "veintidos"], explanation_ru: "Пишется слитно, с ударением на 'o'.", explanation_es: "Se escribe junto: veintidós." },
+        { type: "input", label: "Números", question: "Напишите словом: 100", answers: ["cien"], explanation_ru: "Ровно 100 — это cien. (А 101 — ciento uno).", explanation_es: "100 exacto es cien." },
+        { type: "fill", label: "La hora", question: "Сейчас два часа: _____ las dos.", answers: ["son"], explanation_ru: "Время (кроме часа ночи/дня) всегда через 'Son las...'", explanation_es: "Se usa el plural 'Son las' para todas las horas excepto la una." },
+        { type: "fill", label: "La hora", question: "Сейчас час дня: _____ la una.", answers: ["es"], explanation_ru: "Только для 1:00 используется ед.ч.: Es la una.", explanation_es: "Para la 1:00 se usa singular: Es la una." },
+        { type: "input", label: "Traducción", question: "Три часа с четвертью (15 минут)", answers: ["son las tres y cuarto", "las tres y cuarto"], explanation_ru: "15 минут — это 'y cuarto' (четверть).", explanation_es: "15 minutos es 'y cuarto'." },
+        { type: "input", label: "Traducción", question: "Половина пятого (4:30)", answers: ["son las cuatro y media", "las cuatro y media"], explanation_ru: "Половина — 'y media'. Мы говорим 'четыре и половина'.", explanation_es: "En español se dice la hora actual + 'y media'." },
+
+        // === УСТОЙЧИВЫЕ ВЫРАЖЕНИЯ И КОНСТРУКЦИИ ===
+        { type: "fill", label: "Expresiones", question: "Yo _____ (хотеть/tener) mucha hambre.", answers: ["tengo"], explanation_ru: "Быть голодным = tener hambre (досл. 'иметь голод').", explanation_es: "Se usa el verbo tener + sustantivo: tener hambre." },
+        { type: "fill", label: "Expresiones", question: "Nosotros _____ (tener) frío.", answers: ["tenemos"], explanation_ru: "Мерзнуть = tener frío (иметь холод).", explanation_es: "Tener frío." },
+        { type: "fill", label: "Expresiones", question: "En verano _____ (делать) mucho calor.", answers: ["hace"], explanation_ru: "О погоде: hace calor, hace frío, hace sol.", explanation_es: "Para el clima se usa el verbo hacer: hace calor." },
+        { type: "fill", label: "Gramática", question: "Tengo _____ trabajar mañana.", answers: ["que"], explanation_ru: "Должен что-то сделать = tener + QUE + инфинитив.", explanation_es: "Obligación personal: tener que + infinitivo." },
+        { type: "fill", label: "Gramática", question: "Hay _____ comprar pan.", answers: ["que"], explanation_ru: "Нужно (вообще, безлико) = hay + QUE + инфинитив.", explanation_es: "Obligación impersonal: hay que + infinitivo." },
+        { type: "fill", label: "Gramática", question: "El fin de semana voy _____ ir al cine.", answers: ["a"], explanation_ru: "Планы на будущее = ir + A + инфинитив.", explanation_es: "Planes futuros: ir a + infinitivo." },
+        
+        // === ЛЕКСИКА: СЕМЬЯ, ДОМ, ЕДА ===
+        { type: "input", label: "Vocabulario", question: "Муж", answers: ["el marido", "marido", "esposo", "el esposo"], explanation_ru: "В Испании чаще говорят 'marido'.", explanation_es: "En España es más común 'marido'." },
+        { type: "input", label: "Vocabulario", question: "Квартира (испанский вариант)", answers: ["el piso", "piso"], explanation_ru: "В Испании квартира — это 'el piso'.", explanation_es: "En España se dice 'el piso'." },
+        { type: "input", label: "Vocabulario", question: "Сок (в Испании)", answers: ["el zumo", "zumo"], explanation_ru: "Испания: el zumo. Лат. Америка: el jugo.", explanation_es: "En España se usa la palabra 'zumo'." },
+        { type: "input", label: "Vocabulario", question: "Завтрак", answers: ["el desayuno", "desayuno"], explanation_ru: "Глагол завтракать — desayunar.", explanation_es: "El verbo es desayunar." },
+        { type: "fill", label: "Vocabulario", question: "Para comer quiero una tortilla de _____ (картофель - исп. вариант).", answers: ["patatas", "patata"], explanation_ru: "В Испании картошка — patata. Tortilla de patatas.", explanation_es: "En España es 'patata'." },
+
+        // === TARJETAS (КАРТОЧКИ - Подумай и проверь) ===
+        { type: "reveal", label: "Piensa y comprueba", question: "Я фрилансер.", answer: "Soy autónomo / autónoma.", explanation_ru: "В Испании самозанятый/фрилансер — это autónomo.", explanation_es: "Un freelancer es un 'autónomo'." },
+        { type: "reveal", label: "Piensa y comprueba", question: "Счет, пожалуйста.", answer: "La cuenta, por favor.", explanation_ru: "Фраза для ресторана.", explanation_es: "Frase para pedir pagar en el restaurante." },
+        { type: "reveal", label: "Piensa y comprueba", question: "Мне нравится кофе с молоком.", answer: "Me gusta el café con leche.", explanation_ru: "Глагол gustar: 'Me gusta' для ед.ч. (кофе). Артикль обязателен!", explanation_es: "Verbo gustar requiere artículo definido." },
+        { type: "reveal", label: "Piensa y comprueba", question: "Мне нравятся испанские тапас.", answer: "Me gustan las tapas españolas.", explanation_ru: "Глагол gustar: 'Me gustan' (с 'n' на конце), так как tapas — множ. число.", explanation_es: "Se usa 'gustan' porque 'tapas' es plural." },
+        { type: "reveal", label: "Piensa y comprueba", question: "Сегодня мы закончили работать рано.", answer: "Hoy hemos terminado de trabajar pronto (temprano).", explanation_ru: "Hoy -> hemos terminado. Заканчивать делать = terminar de + inf.", explanation_es: "Terminar + de + infinitivo." }
+    ];
+
+    // Функция для перемешивания массива (Алгоритм Фишера-Йетса)
+    function shuffleArray(array) {
+        let shuffled = array.slice();
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }
+
+    // Формируем сессию: берем первые 50 (или сколько есть, если меньше 50)
+    let sessionExercises = [];
+    let currentIndex = 0;
+
+    const container = document.getElementById('exercise-container');
+    const progressBar = document.getElementById('progress');
+    const progressText = document.getElementById('progress-text');
+
+    function initSession() {
+        // Перемешиваем всю базу и отрезаем нужное количество для дневной тренировки
+        sessionExercises = shuffleArray(allExercisesDatabase).slice(0, EXERCISES_PER_SESSION);
+        currentIndex = 0;
+        renderExercise();
+    }
+
+    function renderExercise() {
+        // Проверка завершения сессии
+        if (currentIndex >= sessionExercises.length) {
+            container.innerHTML = `
+                <div class="end-screen">
+                    <h2>¡Misión cumplida! 🎉</h2>
+                    <p>Вы успешно завершили дневную норму (${sessionExercises.length} заданий).<br>Отличная работа! Возвращайтесь завтра для новой порции.</p>
+                    <button class="btn" onclick="location.reload()">Начать заново (Новый микс)</button>
+                </div>`;
+            progressBar.style.width = '100%';
+            progressText.innerText = `${sessionExercises.length} / ${sessionExercises.length}`;
+            return;
+        }
+
+        const ex = sessionExercises[currentIndex];
+        
+        // Обновляем прогресс
+        const progressPct = (currentIndex / sessionExercises.length) * 100;
+        progressBar.style.width = `${progressPct}%`;
+        progressText.innerText = `${currentIndex} / ${sessionExercises.length}`;
+
+        let html = `
+            <div class="exercise-card active">
+                <div class="question-type">${ex.label}</div>
+                <div class="question-text">${ex.question}</div>
+        `;
+
+        // В зависимости от типа вопроса рендерим интерфейс
+        if (ex.type === 'input' || ex.type === 'fill') {
+            html += `
+                <input type="text" id="answer-input" placeholder="Tu respuesta (Ваш ответ)..." autocomplete="off">
+                <button class="btn" id="submit-btn" onclick="checkAnswer()">Comprobar / Проверить</button>
+            `;
+        } else if (ex.type === 'reveal') {
+            html += `
+                <button class="btn btn-reveal" id="reveal-btn" onclick="revealAnswer()">Mostrar traducción / Показать перевод</button>
+                <div class="hidden-answer" id="hidden-answer">${ex.answer}</div>
+                <button class="btn" id="next-btn" style="display:none;" onclick="nextQuestion()">Siguiente / Дальше</button>
+            `;
+        }
+
+        html += `
+                <div class="feedback" id="feedback">
+                    <span id="feedback-title" style="display:block; margin-bottom:5px; font-size:1.1rem;"></span>
+                    <div class="explanation" id="feedback-expl"></div>
+                    <button class="btn" style="margin-top: 20px;" onclick="nextQuestion()">Siguiente / Дальше</button>
+                </div>
+            </div>
+        `;
+        
+        container.innerHTML = html;
+
+        // Обработка клавиши Enter для текстового поля
+        const inputField = document.getElementById('answer-input');
+        if(inputField) {
+            inputField.addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    // Если фидбек уже показан, Enter сработает как "Дальше"
+                    if (document.getElementById('feedback').style.display === 'block') {
+                        nextQuestion();
+                    } else {
+                        checkAnswer();
+                    }
+                }
+            });
+            inputField.focus();
+        }
+    }
+
+    function checkAnswer() {
+        const ex = sessionExercises[currentIndex];
+        const inputField = document.getElementById('answer-input');
+        
+        // Очищаем ввод от лишних пробелов, знаков препинания (¿?¡!) и приводим к нижнему регистру
+        let userAnswer = inputField.value.trim().toLowerCase();
+        userAnswer = userAnswer.replace(/[¿?¡!.]/g, ''); 
+
+        // Проверяем, есть ли ответ в массиве допустимых ответов
+        const isCorrect = ex.answers.some(ans => ans.toLowerCase().replace(/[¿?¡!.]/g, '') === userAnswer);
+        
+        const feedback = document.getElementById('feedback');
+        const title = document.getElementById('feedback-title');
+        const expl = document.getElementById('feedback-expl');
+        const submitBtn = document.getElementById('submit-btn');
+
+        feedback.style.display = 'block';
+        inputField.disabled = true;
+        submitBtn.style.display = 'none';
+
+        if (isCorrect) {
+            feedback.className = 'feedback correct';
+            title.innerHTML = '¡Excelente! Отлично! ✅';
+            expl.innerHTML = '';
+        } else {
+            feedback.className = 'feedback incorrect';
+            title.innerHTML = `No es exacto. Не совсем. ❌ <br>Правильный ответ: <span style="color:var(--text-main); background:#fff; padding:2px 8px; border-radius:4px; margin-left:5px;">${ex.answers[0]}</span>`;
+            expl.innerHTML = `🇪🇸 ${ex.explanation_es}<br>🇷🇺 ${ex.explanation_ru}`;
+        }
+    }
+
+    function revealAnswer() {
+        document.getElementById('hidden-answer').style.display = 'block';
+        document.getElementById('reveal-btn').style.display = 'none';
+        
+        const ex = sessionExercises[currentIndex];
+        const expl = document.getElementById('feedback-expl');
+        const feedback = document.getElementById('feedback');
+        
+        if(ex.explanation_ru) {
+            feedback.style.display = 'block';
+            feedback.className = 'feedback correct'; // Используем зеленый стиль для информационного блока
+            document.getElementById('feedback-title').innerHTML = 'Regla / Правило 💡';
+            expl.innerHTML = `🇪🇸 ${ex.explanation_es}<br>🇷🇺 ${ex.explanation_ru}`;
+        } else {
+            document.getElementById('next-btn').style.display = 'block';
+        }
+    }
+
+    function nextQuestion() {
+        currentIndex++;
+        renderExercise();
+    }
+
+    // Запуск приложения при загрузке страницы
+    window.onload = initSession;
+
+</script>
+</body>
+</html>
