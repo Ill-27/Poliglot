@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polyglot Mastery | Премиальное изучение языков</title>
+    <!-- Подключение современного и элегантного шрифта -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #1a1a1a;
+            --text-muted: #555555;
+            --accent: #2c3e50;
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Канвас для звездного фона */
+        #starCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* Блок введения с эффектом Glassmorphism */
+        .intro-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+            text-align: center;
+        }
+
+        .bilingual-text {
+            margin-bottom: 20px;
+            font-size: 1.15rem;
+        }
+
+        .bilingual-text .ru {
+            font-weight: 400;
+            color: var(--text-main);
+            display: block;
+        }
+
+        .bilingual-text .es {
+            font-weight: 300;
+            color: var(--text-muted);
+            font-style: italic;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .highlight {
+            font-weight: 600;
+            color: #d35400; /* Изящный акцентный цвет для важных слов */
+        }
+
+        /* Аккордеон (Языки и уровни) */
+        .accordion {
+            margin-top: 30px;
+        }
+
+        .accordion-item {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.02);
+            transition: var(--transition);
+        }
+
+        .accordion-item:hover {
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+
+        .accordion-header {
+            padding: 25px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            background: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: 300;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-header::after {
+            transform: rotate(45deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .accordion-body {
+            padding: 0 30px 30px 30px;
+        }
+
+        /* Сетка уровней */
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .level-card {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            background: #fff;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .level-card:hover {
+            border-color: var(--accent);
+        }
+
+        .level-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .badge-free {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-pro {
+            background-color: #f5f5f7;
+            color: #1a1a1a;
+        }
+
+        .level-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .level-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .media-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            background: var(--text-main);
+            color: #fff;
+        }
+
+        .btn-primary {
+            background: var(--text-main);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #333;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .intro-card { padding: 30px 20px; }
+            .accordion-header { padding: 20px; font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas для звездного фона -->
+    <canvas id="starCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <h1>Абсолютное погружение</h1>
+            <p class="subtitle">Инновационная методика изучения языков через слушание и чтение. Дорого, минималистично, эффективно.</p>
+        </header>
+
+        <section class="intro-card">
+            <div class="bilingual-text">
+                <span class="ru">Больше не нужно искать лучший способ выучить испанский!</span>
+                <span class="es">¡No hay que buscar más la mejor opción para aprender español!</span>
+            </div>
+            
+            <div class="bilingual-text">
+                <span class="ru">Просто слушай и будешь знать. Всё, что от тебя нужно — делать это каждый день.</span>
+                <span class="es">Solo escucha y lo sabrás. Todo lo que necesitas es hacerlo cada día.</span>
+            </div>
+            
+            <div class="bilingual-text">
+                <span class="ru">Все уровни испанского. Автор перепробовал тысячу способов, честно.</span>
+                <span class="es">Son todos los niveles del español. El autor probó mil métodos, de verdad.</span>
+            </div>
+            
+            <div class="bilingual-text">
+                <span class="ru">Это лучшее, это всё.</span>
+                <span class="es">Este es el mejor, eso es todo.</span>
+            </div>
+
+            <hr style="border: none; border-top: 1px solid var(--border-color); margin: 30px 0;">
+
+            <div class="bilingual-text">
+                <span class="ru">Каждый день включай эту запись. Пока слушаешь, читай это одновременно.</span>
+                <span class="es">Cada día reproduce este audio. Mientras escuchas, léelo al mismo tiempo.</span>
+            </div>
+
+            <div class="bilingual-text">
+                <span class="ru highlight">Удачи! Уровень А1 бесплатный!</span>
+                <span class="es highlight">¡Que tengas buena suerte! ¡El nivel A1 es gratis!</span>
+            </div>
+        </section>
+
+        <section class="accordion">
+            <!-- Испанский Язык -->
+            <div class="accordion-item active">
+                <button class="accordion-header">Испанский язык (Español)</button>
+                <div class="accordion-content" style="max-height: 1000px;">
+                    <div class="accordion-body">
+                        <div class="level-grid">
+                            <!-- Уровень A1 -->
+                            <div class="level-card">
+                                <span class="level-badge badge-free">Бесплатно</span>
+                                <div class="level-title">Уровень A1</div>
+                                <div class="level-desc">Основы языка. Слушай и читай одновременно для формирования базовых нейронных связей.</div>
+                                <div class="media-buttons">
+                                    <button class="btn btn-primary">▶ Аудио</button>
+                                    <button class="btn">Текст</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Уровень A2 -->
+                            <div class="level-card">
+                                <span class="level-badge badge-pro">Premium</span>
+                                <div class="level-title">Уровень A2</div>
+                                <div class="level-desc">Расширение словарного запаса. Сложные конструкции, подающиеся через живую речь.</div>
+                                <div class="media-buttons">
+                                    <button class="btn" style="width:100%">Открыть доступ</button>
+                                </div>
+                            </div>
+
+                            <!-- Уровень B1 -->
+                            <div class="level-card">
+                                <span class="level-badge badge-pro">Premium</span>
+                                <div class="level-title">Уровень B1</div>
+                                <div class="level-desc">Свободное общение на бытовые темы. Полное аудио- и видео-сопровождение.</div>
+                                <div class="media-buttons">
+                                    <button class="btn" style="width:100%">Открыть доступ</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Английский Язык -->
+            <div class="accordion-item">
+                <button class="accordion-header">Английский язык (English)</button>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <div class="level-grid">
+                            <!-- Уровень A1 -->
+                            <div class="level-card">
+                                <span class="level-badge badge-free">Бесплатно</span>
+                                <div class="level-title">Уровень A1</div>
+                                <div class="level-desc">Начни понимать английский на слух. Ежедневные аудио-тренировки с параллельным текстом.</div>
+                                <div class="media-buttons">
+                                    <button class="btn btn-primary">▶ Аудио</button>
+                                    <button class="btn">Текст</button>
+                                </div>
+                            </div>
+                            <!-- Уровень A2 -->
+                            <div class="level-card">
+                                <span class="level-badge badge-pro">Premium</span>
+                                <div class="level-title">Уровень A2</div>
+                                <div class="level-desc">Продвинутая базовая грамматика и идиомы в контексте увлекательных историй.</div>
+                                <div class="media-buttons">
+                                    <button class="btn" style="width:100%">Открыть доступ</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Другие языки можно добавлять аналогичным образом -->
+            <div class="accordion-item">
+                <button class="accordion-header">Французский (Français) <span style="font-size: 0.8rem; font-weight: 400; color: var(--text-muted);">Скоро</span></button>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <p style="color: var(--text-muted); text-align: center; padding: 20px;">Материалы находятся в разработке и скоро будут доступны.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // --- ЛОГИКА АККОРДЕОНА ---
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
+        
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                const content = item.querySelector('.accordion-content');
+                
+                // Закрываем другие открытые вкладки (опционально, для эффекта эксклюзивности)
+                document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                    }
+                });
+
+                // Тоггл текущей вкладки
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    content.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        });
+
+        // --- ЛОГИКА ФОНОВЫХ ЗВЕЗД (CANVAS) ---
+        const canvas = document.getElementById('starCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        // Палитра "дорогих" темных и цветных звезд
+        const starColors = ['#1a1a24', '#2c3e50', '#4a235a', '#0e6251', '#7d6608', '#212f3d'];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2.5 + 0.5; // Разный размер для глубины
+                this.speedY = -(Math.random() * 0.3 + 0.1); // Медленное движение вверх
+                this.speedX = (Math.random() - 0.5) * 0.2; // Легкий дрейф по горизонтали
+                this.color = starColors[Math.floor(Math.random() * starColors.length)];
+                this.opacity = Math.random() * 0.5 + 0.2; // Полупрозрачность для ненавязчивости
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // Если звезда ушла за верхний край, возвращаем вниз
+                if (this.y < -10) {
+                    this.y = height + 10;
+                    this.x = Math.random() * width;
+                }
+                // Зацикливание по горизонтали
+                if (this.x < -10) this.x = width + 10;
+                if (this.x > width + 10) this.x = -10;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            // Количество звезд зависит от ширины экрана (не перегружаем мобильные)
+            const numStars = Math.floor(width / 15); 
+            for (let i = 0; i < numStars; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            initStars();
+        });
+
+        // Запуск
+        resize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>
