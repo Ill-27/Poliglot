@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Español A1 | Reglas</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #000000;
+            --text-muted: #888888;
+            --border-color: #e0e0e0;
+            --accent-color: #000000;
+        }
+
+        html, body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Кнопка "Назад" */
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid var(--text-main);
+            padding: 5px 15px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            background: var(--text-main);
+            color: var(--bg-color);
+        }
+
+        /* Инструкция */
+        .instruction-box {
+            background: #fafafa;
+            border: 1px dashed var(--border-color);
+            border-left: 4px solid var(--text-main);
+            padding: 25px;
+            margin-bottom: 40px;
+        }
+
+        .instruction-box h2 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .bilingual-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        .bilingual-list li {
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .bilingual-list li span {
+            display: block;
+            font-weight: 400;
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        .warning-text {
+            font-weight: 600;
+            color: #d35400;
+            margin-top: 15px;
+        }
+        
+        .warning-text span {
+            display: block;
+            font-weight: 400;
+            font-style: italic;
+            font-size: 0.9rem;
+            margin-top: 2px;
+        }
+
+        /* Кнопка Аудио */
+        .audio-wrapper {
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border: 2px solid var(--text-main);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .audio-btn {
+            background: var(--text-main);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .audio-btn:hover {
+            background: #333;
+        }
+
+        /* Заголовки секций */
+        h2.section-title {
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--text-main);
+            padding-bottom: 10px;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        /* Таблицы */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background: #fff;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: #fafafa;
+            font-weight: 600;
+        }
+
+        /* Списки и текст */
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        strong {
+            color: var(--text-main);
+        }
+
+        .es-text {
+            font-weight: 600;
+            color: #0055FF; /* Легкий акцент для испанских слов в тексте */
+        }
+
+        .ru-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        
+        .note {
+            font-size: 0.85rem;
+            background: #f9f9f9;
+            padding: 10px;
+            border-left: 3px solid #FFB300;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="back-btn"><- Назад к уровням</a>
+
+        <div class="instruction-box">
+            <h2>/> Инструкция на каждый день</h2>
+            <p>То, что тебе нужно делать каждый день: <em>(Lo que tienes que hacer cada día:)</em></p>
+            <ul class="bilingual-list">
+                <li>1. Все правила А1. <span>(Todas las reglas de A1.)</span></li>
+                <li>2. Все слова А1. <span>(Todas las palabras de A1.)</span></li>
+                <li>3. Практика. <span>(Práctica.)</span></li>
+            </ul>
+            <div class="warning-text">
+                Когда нет времени делать практику, то слушай пункты 1 и 2! Обязательно, каждый день!
+                <span>¡Cuando no tengas tiempo para hacer la práctica, escucha los puntos 1 y 2! ¡Obligatoriamente, cada día!</span>
+            </div>
+        </div>
+
+        <div class="audio-wrapper">
+            <div>
+                <strong>Аудио: Правила А1</strong>
+                <div style="font-size: 0.8rem; color: var(--text-muted);">Слушай и читай текст ниже</div>
+            </div>
+            <button class="audio-btn" onclick="document.getElementById('a1-audio').play()">
+                ▶ Слушать
+            </button>
+            <audio id="a1-audio" src="ССЫЛКА_НА_ВАШ_АУДИОФАЙЛ.mp3" style="display: none;"></audio>
+        </div>
+
+        <h2 class="section-title">0. Алфавит (El Alfabeto)</h2>
+        <p>
+            <strong>A</strong> (a), <strong>B</strong> (be), <strong>C</strong> (ce), <strong>D</strong> (de), <strong>E</strong> (e), <strong>F</strong> (efe), <strong>G</strong> (ge), <strong>H</strong> (hache), <strong>I</strong> (i), <strong>J</strong> (jota), <strong>K</strong> (ka), <strong>L</strong> (ele), <strong>M</strong> (eme), <strong>N</strong> (ene), <strong>Ñ</strong> (eñe), <strong>O</strong> (o), <strong>P</strong> (pe), <strong>Q</strong> (cu), <strong>R</strong> (erre), <strong>S</strong> (ese), <strong>T</strong> (te), <strong>U</strong> (u), <strong>V</strong> (uve), <strong>W</strong> (uve doble), <strong>X</strong> (equis), <strong>Y</strong> (i griega / ye), <strong>Z</strong> (zeta).
+        </p>
+
+        <h2 class="section-title">1. Фонетика и орфография (Fonética y ortografía)</h2>
+        <h3>Правила чтения согласных:</h3>
+        <ul>
+            <li><strong>b / v:</strong> Читаются одинаково (звук между [б] и [в]). В начале слова или после паузы всегда как [б]. <br><span class="es-text">Ejemplo:</span> vaca <span class="ru-text">(бака - корова)</span>, beso <span class="ru-text">(поцелуй)</span>.</li>
+            <li><strong>h:</strong> Никогда не читается. <br><span class="es-text">Ejemplo:</span> hola <span class="ru-text">(ола - привет)</span>, ahora <span class="ru-text">(аора - сейчас)</span>.</li>
+            <li><strong>c:</strong> 
+                <br>- Перед <strong>a, o, u</strong> читается как [к]: casa <span class="ru-text">(дом)</span>, cosa <span class="ru-text">(вещь)</span>, cubo <span class="ru-text">(ведро)</span>.
+                <br>- Перед <strong>e, i</strong> читается как межзубный [с]: cena <span class="ru-text">(ужин)</span>, cine <span class="ru-text">(кино)</span>. <em>(В Латинской Америке читается как обычное русское [с] - это явление называется seseo).</em>
+            </li>
+            <li><strong>z:</strong> Всегда читается как межзубный [с]. <br><span class="es-text">Ejemplo:</span> zapato <span class="ru-text">(ботинок)</span>, zumo <span class="ru-text">(сок)</span>. <em>(В Лат. Америке - как обычное [с]).</em></li>
+            <li><strong>g:</strong>
+                <br>- Перед <strong>a, o, u</strong> читается как [г]: gato <span class="ru-text">(кот)</span>, goma <span class="ru-text">(ластик)</span>.
+                <br>- Перед <strong>e, i</strong> читается как [х]: gente <span class="ru-text">(люди)</span>, gimnasio <span class="ru-text">(спортзал)</span>.
+            </li>
+            <li><strong>gue, gui:</strong> Читаются как [ге], [ги] (буква 'u' не читается). <br><span class="es-text">Ejemplo:</span> guerra <span class="ru-text">(война)</span>, guitarra <span class="ru-text">(гитара)</span>.</li>
+            <li><strong>que, qui:</strong> Читаются как [ке], [ки] (буква 'u' не читается). <br><span class="es-text">Ejemplo:</span> queso <span class="ru-text">(сыр)</span>, aquí <span class="ru-text">(здесь)</span>.</li>
+            <li><strong>ll:</strong> Читается как [й] (или мягкое [дж]). <br><span class="es-text">Ejemplo:</span> llave <span class="ru-text">(йаве - ключ)</span>, calle <span class="ru-text">(улица)</span>.</li>
+            <li><strong>ñ:</strong> Читается как мягкий [нь]. <br><span class="es-text">Ejemplo:</span> España <span class="ru-text">(Испания)</span>, niño <span class="ru-text">(мальчик)</span>.</li>
+            <li><strong>ch:</strong> Читается как [ч]. <br><span class="es-text">Ejemplo:</span> chica <span class="ru-text">(девушка)</span>, noche <span class="ru-text">(ночь)</span>.</li>
+        </ul>
+
+        <h3>Ударение (Acentuación):</h3>
+        <ol>
+            <li>Если слово оканчивается на гласную, <strong>-n</strong> или <strong>-s</strong>, ударение падает на предпоследний слог: c<strong>a</strong>sa <span class="ru-text">(дом)</span>, trab<strong>a</strong>jan <span class="ru-text">(они работают)</span>, ch<strong>i</strong>cos <span class="ru-text">(парни)</span>.</li>
+            <li>Если слово оканчивается на любую другую согласную, ударение падает на последний слог: ciud<strong>a</strong>d <span class="ru-text">(город)</span>, trabaj<strong>a</strong>r <span class="ru-text">(работать)</span>, pap<strong>e</strong>l <span class="ru-text">(бумага)</span>.</li>
+            <li>Если правило нарушается, ставится графическое ударение (tilde): est<strong>á</strong>s, m<strong>é</strong>dico, caf<strong>é</strong>, f<strong>á</strong>cil. Также используется для различения смысла: tú <span class="ru-text">(ты)</span> / tu <span class="ru-text">(твой)</span>, él <span class="ru-text">(он)</span> / el <span class="ru-text">(артикль)</span>.</li>
+        </ol>
+
+
+        <h2 class="section-title">2. Числительные (Números)</h2>
+        <table>
+            <tr>
+                <td><strong>0</strong> - cero</td>
+                <td><strong>11</strong> - once</td>
+                <td><strong>21</strong> - veintiuno</td>
+                <td><strong>31</strong> - treinta y uno</td>
+            </tr>
+            <tr>
+                <td><strong>1</strong> - uno</td>
+                <td><strong>12</strong> - doce</td>
+                <td><strong>22</strong> - veintidós</td>
+                <td><strong>40</strong> - cuarenta</td>
+            </tr>
+            <tr>
+                <td><strong>2</strong> - dos</td>
+                <td><strong>13</strong> - trece</td>
+                <td><strong>23</strong> - veintitrés</td>
+                <td><strong>50</strong> - cincuenta</td>
+            </tr>
+            <tr>
+                <td><strong>3</strong> - tres</td>
+                <td><strong>14</strong> - catorce</td>
+                <td><strong>24</strong> - veinticuatro</td>
+                <td><strong>60</strong> - sesenta</td>
+            </tr>
+            <tr>
+                <td><strong>4</strong> - cuatro</td>
+                <td><strong>15</strong> - quince</td>
+                <td><strong>25</strong> - veinticinco</td>
+                <td><strong>70</strong> - setenta</td>
+            </tr>
+            <tr>
+                <td><strong>5</strong> - cinco</td>
+                <td><strong>16</strong> - dieciséis</td>
+                <td><strong>26</strong> - veintiséis</td>
+                <td><strong>80</strong> - ochenta</td>
+            </tr>
+            <tr>
+                <td><strong>6</strong> - seis</td>
+                <td><strong>17</strong> - diecisiete</td>
+                <td><strong>27</strong> - veintisiete</td>
+                <td><strong>90</strong> - noventa</td>
+            </tr>
+            <tr>
+                <td><strong>7</strong> - siete</td>
+                <td><strong>18</strong> - dieciocho</td>
+                <td><strong>28</strong> - veintiocho</td>
+                <td><strong>100</strong> - cien (ciento)</td>
+            </tr>
+            <tr>
+                <td><strong>8</strong> - ocho</td>
+                <td><strong>19</strong> - diecinueve</td>
+                <td><strong>29</strong> - veintinueve</td>
+                <td><strong>200</strong> - doscientos</td>
+            </tr>
+            <tr>
+                <td><strong>9</strong> - nueve</td>
+                <td><strong>20</strong> - veinte</td>
+                <td><strong>30</strong> - treinta</td>
+                <td><strong>500</strong> - quinientos</td>
+            </tr>
+            <tr>
+                <td><strong>10</strong> - diez</td>
+                <td></td>
+                <td></td>
+                <td><strong>700</strong> - setecientos<br><strong>900</strong> - novecientos</td>
+            </tr>
+        </table>
+        <ul>
+            <li><strong>1 000</strong> - mil <span class="ru-text">(тысяча)</span></li>
+            <li><strong>1 000 000</strong> - un millón <span class="ru-text">(один миллион)</span></li>
+            <li><strong>1 000 000 000</strong> - mil millones <span class="ru-text">(миллиард. Примечание: в испанском "un billón" — это триллион / миллион миллионов, поэтому миллиард говорят как "тысяча миллионов")</span>.</li>
+        </ul>
+
+
+        <h2 class="section-title">3. Существительные и прилагательные (Sustantivos y adjetivos)</h2>
+        <h3>Род (Género):</h3>
+        <ul>
+            <li><strong>Мужской (-o, -or, -aje):</strong> el libro <span class="ru-text">(книга)</span>, el ordenador <span class="ru-text">(компьютер)</span>, el viaje <span class="ru-text">(путешествие)</span>.</li>
+            <li><strong>Женский (-a, -ción, -dad):</strong> la mesa <span class="ru-text">(стол)</span>, la canción <span class="ru-text">(песня)</span>, la ciudad <span class="ru-text">(город)</span>.</li>
+            <li><strong>Исключения (нужно выучить):</strong> el mapa <span class="ru-text">(карта)</span>, el día <span class="ru-text">(день)</span>, el problema <span class="ru-text">(проблема)</span>, el planeta <span class="ru-text">(планета)</span>, el idioma <span class="ru-text">(язык, например, el idioma español)</span>, la mano <span class="ru-text">(рука от кисти до пальцев)</span>, la foto [fotografía] <span class="ru-text">(фотография)</span>, la moto [motocicleta] <span class="ru-text">(мотоцикл)</span>.</li>
+        </ul>
+
+        <h3>Число (Número) и согласование:</h3>
+        <ul>
+            <li>Оканчивается на <strong>гласную + -s</strong>: el gato negro -> los gatos negros <span class="ru-text">(черные коты)</span>.</li>
+            <li>Оканчивается на <strong>согласную + -es</strong>: la flor azul -> las flores azules <span class="ru-text">(синие цветы)</span>.</li>
+            <li>Замена <strong>z на c</strong>: el lápiz -> los lápices <span class="ru-text">(карандаши)</span>.</li>
+        </ul>
+
+
+        <h2 class="section-title">4. Артикли (Artículos)</h2>
+        <table>
+            <tr>
+                <th></th>
+                <th>Определенные<br><span class="ru-text">(Конкретный предмет)</span></th>
+                <th>Неопределенные<br><span class="ru-text">(Один из многих / впервые)</span></th>
+            </tr>
+            <tr>
+                <td><strong>Мужской род</strong></td>
+                <td>el chico <span class="ru-text">(парень)</span>, los chicos</td>
+                <td>un chico, unos chicos</td>
+            </tr>
+            <tr>
+                <td><strong>Женский род</strong></td>
+                <td>la chica <span class="ru-text">(девушка)</span>, las chicas</td>
+                <td>una chica, unas chicas</td>
+            </tr>
+        </table>
+        
+        <h3>Слияние:</h3>
+        <ul>
+            <li><strong>a + el = al</strong> (Voy al cine - <span class="ru-text">Я иду в кино</span>).</li>
+            <li><strong>de + el = del</strong> (El perro del vecino - <span class="ru-text">Собака соседа</span>).</li>
+        </ul>
+        <h3>Без артикля:</h3>
+        <ul>
+            <li>Профессии: Soy estudiante <span class="ru-text">(Я студент)</span>.</li>
+            <li>Языки после глаголов hablar, aprender: Hablo español <span class="ru-text">(Я говорю по-испански)</span>.</li>
+        </ul>
+
+
+        <h2 class="section-title">5. Местоимения (Pronombres)</h2>
+        <table>
+            <tr>
+                <th>Личные (Кто?)</th>
+                <th>Возвратные (Кого? Себя)</th>
+                <th>Пример (Ejemplo)</th>
+            </tr>
+            <tr>
+                <td><strong>Yo</strong> <span class="ru-text">(Я)</span></td>
+                <td><strong>me</strong></td>
+                <td>Yo me llamo <span class="ru-text">(Я меня называю / Меня зовут)</span></td>
+            </tr>
+            <tr>
+                <td><strong>Tú</strong> <span class="ru-text">(Ты)</span></td>
+                <td><strong>te</strong></td>
+                <td>Tú te levantas <span class="ru-text">(Ты просыпаешься)</span></td>
+            </tr>
+            <tr>
+                <td><strong>Él / Ella / Usted</strong> <span class="ru-text">(Он, Она, Вы вежл.)</span></td>
+                <td><strong>se</strong></td>
+                <td>Él se ducha <span class="ru-text">(Он принимает душ)</span></td>
+            </tr>
+            <tr>
+                <td><strong>Nosotros / Nosotras</strong> <span class="ru-text">(Мы)</span></td>
+                <td><strong>nos</strong></td>
+                <td>Nosotros nos lavamos <span class="ru-text">(Мы умываемся)</span></td>
+            </tr>
+            <tr>
+                <td><strong>Vosotros / Vosotras</strong> <span class="ru-text">(Вы - группа)</span></td>
+                <td><strong>os</strong></td>
+                <td>Vosotros os acostáis <span class="ru-text">(Вы ложитесь спать)</span></td>
+            </tr>
+            <tr>
+                <td><strong>Ellos / Ellas / Ustedes</strong> <span class="ru-text">(Они, Вы - мн.ч.)</span></td>
+                <td><strong>se</strong></td>
+                <td>Ellos se llaman <span class="ru-text">(Их зовут)</span></td>
+            </tr>
+        </table>
+        <div class="note">
+            В Латинской Америке форма <strong>Vosotros</strong> (и возвратное <strong>os</strong>) не используется. Вместо этого для обращения к группе людей всегда используют <strong>Ustedes</strong> (и возвратное <strong>se</strong>).
+        </div>
+
+        <h3>Указательные (Demostrativos):</h3>
+        <ul>
+            <li><strong>Близко (этот):</strong> este libro <span class="ru-text">(эта книга)</span>, esta mesa <span class="ru-text">(этот стол)</span>, estos libros, estas mesas.</li>
+            <li><strong>Дальше (тот):</strong> ese libro, esa mesa.</li>
+            <li><strong>Далеко (вооон тот):</strong> aquel libro, aquella mesa.</li>
+            <li><strong>Нейтральные (для абстрактных вещей/ситуаций):</strong> ¿Qué es esto? <span class="ru-text">(Что это такое?)</span>, Eso es verdad <span class="ru-text">(Это правда)</span>.</li>
+        </ul>
+
+        <h3>Прямое и косвенное дополнение (CD y CI):</h3>
+        <ul>
+            <li><strong>CD (Кого? Что?):</strong> lo, la, los, las. <br>¿Tienes la llave? - Sí, la tengo. <span class="ru-text">(У тебя есть ключ? - Да, я его/ее имею).</span></li>
+            <li><strong>CI (Кому?):</strong> me, te, le, nos, os, les. <br>Используется с глаголом gustar: A mí me gusta el café <span class="ru-text">(Мне нравится кофе)</span>. A él le gusta leer <span class="ru-text">(Ему нравится читать)</span>.</li>
+        </ul>
+
+
+        <h2 class="section-title">6. Глаголы. Настоящее время (Verbos - Presente)</h2>
+        <h3>Правильные глаголы (Verbos regulares):</h3>
+        <table>
+            <tr>
+                <th>Лицо</th>
+                <th>-AR (hablar - говорить)</th>
+                <th>-ER (comer - кушать)</th>
+                <th>-IR (vivir - жить)</th>
+            </tr>
+            <tr><td>Yo</td><td>habl<strong>o</strong></td><td>com<strong>o</strong></td><td>viv<strong>o</strong></td></tr>
+            <tr><td>Tú</td><td>habl<strong>as</strong></td><td>com<strong>es</strong></td><td>viv<strong>es</strong></td></tr>
+            <tr><td>Él/Ella/Usted</td><td>habl<strong>a</strong></td><td>com<strong>e</strong></td><td>viv<strong>e</strong></td></tr>
+            <tr><td>Nosotros</td><td>habl<strong>amos</strong></td><td>com<strong>emos</strong></td><td>viv<strong>imos</strong></td></tr>
+            <tr><td>Vosotros</td><td>habl<strong>áis</strong></td><td>com<strong>éis</strong></td><td>viv<strong>ís</strong></td></tr>
+            <tr><td>Ellos/Ustedes</td><td>habl<strong>an</strong></td><td>com<strong>en</strong></td><td>viv<strong>en</strong></td></tr>
+        </table>
+
+        <h3>Отклоняющиеся глаголы (Cambio vocálico):</h3>
+        <p>Изменение гласной в корне происходит во всех формах, <strong>КРОМЕ nosotros и vosotros</strong>.</p>
+        
+        <h4>e > ie</h4>
+        <ul>
+            <li><strong>querer</strong> <span class="ru-text">(хотеть, любить)</span>: quiero, quieres, quiere, queremos, queréis, quieren.</li>
+            <li><strong>pensar</strong> <span class="ru-text">(думать)</span>: pienso, piensas, piensa, pensamos, pensáis, piensan.</li>
+            <li><strong>empezar</strong> <span class="ru-text">(начинать)</span>: empiezo, empiezas, empieza, empezamos, empezáis, empiezan.</li>
+            <li><strong>entender</strong> <span class="ru-text">(понимать)</span>: entiendo, entiendes, entiende, entendemos, entendéis, entienden.</li>
+            <li><strong>preferir</strong> <span class="ru-text">(предпочитать)</span>: prefiero, prefieres, prefiere, preferimos, preferís, prefieren.</li>
+        </ul>
+
+        <h4>o > ue</h4>
+        <ul>
+            <li><strong>dormir</strong> <span class="ru-text">(спать)</span>: duermo, duermes, duerme, dormimos, dormís, duermen.</li>
+            <li><strong>poder</strong> <span class="ru-text">(мочь)</span>: puedo, puedes, puede, podemos, podéis, pueden.</li>
+            <li><strong>volver</strong> <span class="ru-text">(возвращаться)</span>: vuelvo, vuelves, vuelve, volvemos, volvéis, vuelven.</li>
+            <li><strong>costar</strong> <span class="ru-text">(стоить)</span>: cuesto, cuestas, cuesta, costamos, costáis, cuestan.</li>
+            <li><strong>almorzar</strong> <span class="ru-text">(обедать)</span>: almuerzo, almuerzas, almuerza, almorzamos, almorzáis, almuerzan.</li>
+        </ul>
+
+        <h4>e > i</h4>
+        <ul>
+            <li><strong>pedir</strong> <span class="ru-text">(просить, заказывать)</span>: pido, pides, pide, pedimos, pedís, piden.</li>
+        </ul>
+
+        <h3>Неправильные в форме "Yo" (Irregulares en "Yo"):</h3>
+        <ul>
+            <li><strong>Hacer</strong> <span class="ru-text">(делать)</span>: hago, haces, hace, hacemos, hacéis, hacen.</li>
+            <li><strong>Salir</strong> <span class="ru-text">(выходить)</span>: salgo, sales, sale, salimos, salís, salen.</li>
+            <li><strong>Conocer</strong> <span class="ru-text">(знать кого-то, быть знакомым)</span>: conozco, conoces, conoce, conocemos, conocéis, conocen.</li>
+            <li><strong>Dar</strong> <span class="ru-text">(давать)</span>: doy, das, da, damos, dais, dan.</li>
+            <li><strong>Saber</strong> <span class="ru-text">(знать факты, уметь)</span>: sé, sabes, sabe, sabemos, sabéis, saben.</li>
+        </ul>
+
+        <h3>Главные неправильные глаголы:</h3>
+        <ul>
+            <li><strong>Ser</strong> <span class="ru-text">(быть - постоянный признак, суть)</span>: soy, eres, es, somos, sois, son. <br><em>Soy de Rusia. Soy alto. <span class="ru-text">(Я из России. Я высокий).</span></em></li>
+            <li><strong>Estar</strong> <span class="ru-text">(находиться, временное состояние)</span>: estoy, estás, está, estamos, estáis, están. <br><em>Estoy en casa. Estoy cansado. <span class="ru-text">(Я дома. Я уставший).</span></em></li>
+            <li><strong>Ir</strong> <span class="ru-text">(идти, ехать)</span>: voy, vas, va, vamos, vais, van. <br><em>Voy al trabajo. <span class="ru-text">(Я иду на работу).</span></em></li>
+            <li><strong>Tener</strong> <span class="ru-text">(иметь)</span>: tengo, tienes, tiene, tenemos, tenéis, tienen. <br><em>Tengo 20 años. <span class="ru-text">(Мне 20 лет - досл. имею 20 лет).</span></em></li>
+        </ul>
+
+        <h3>Разница Ser, Estar и Hay:</h3>
+        <ul>
+            <li><strong>Hay</strong> <span class="ru-text">(безличная форма глагола haber)</span> = "Имеется", "Есть где-то". Всегда используется с неопределенными артиклями, без них или с числами. <br><em>¿Hay una farmacia cerca? <span class="ru-text">(Здесь есть/существует аптека?).</span></em></li>
+            <li><strong>Estar</strong> = "Находится". Используется, когда мы знаем, о каком конкретно предмете идет речь (определенный артикль). <br><em>¿Dónde está la farmacia? <span class="ru-text">(Где находится эта конкретная аптека?).</span></em></li>
+        </ul>
+
+        <h3>Estar + Gerundio (Действие прямо сейчас):</h3>
+        <ul>
+            <li><strong>estar + основа + -ando (для -ar)</strong>: Estoy hablando <span class="ru-text">(Я говорю прямо сейчас)</span>.</li>
+            <li><strong>estar + основа + -iendo (для -er, -ir)</strong>: Estás comiendo <span class="ru-text">(Ты кушаешь прямо сейчас)</span>.</li>
+            <li><strong>Неправильные герундии:</strong> leer -> leyendo, dormir -> durmiendo.</li>
+        </ul>
+
+        <h3>Глаголы типа Gustar (Нравиться):</h3>
+        <ul>
+            <li>Единственное число предмета / инфинитив: Me gusta el libro. / Me gusta leer. <span class="ru-text">(Мне нравится книга / Мне нравится читать)</span>.</li>
+            <li>Множественное число: Me gustan los libros. <span class="ru-text">(Мне нравятся книги)</span>.</li>
+        </ul>
+
+        <h3>Перифразы (Конструкции):</h3>
+        <ul>
+            <li><strong>Ir a + infinitivo</strong> (Планы/Будущее): Voy a comprar pan. <span class="ru-text">(Я собираюсь/иду купить хлеб).</span></li>
+            <li><strong>Tener que + infinitivo</strong> (Личный долг/обязанность): Tengo que trabajar. <span class="ru-text">(Я должен работать).</span></li>
+            <li><strong>Hay que + infinitivo</strong> (Общее безличное правило): Hay que beber agua. <span class="ru-text">(Нужно пить воду - всем, вообще).</span></li>
+        </ul>
+
+
+        <h2 class="section-title">7. Прошедшее время (Pretérito Perfecto)</h2>
+        <p>Используется для действий в прошлом, которые имеют связь с настоящим (маркеры: hoy <span class="ru-text">(сегодня)</span>, esta semana <span class="ru-text">(на этой неделе)</span>, este año <span class="ru-text">(в этом году)</span>, ya <span class="ru-text">(уже)</span>, todavía no <span class="ru-text">(еще не)</span>, nunca <span class="ru-text">(никогда)</span>).</p>
+        <div class="note">В Испании это время используется постоянно для недавнего прошлого. В Латинской Америке вместо него чаще используют простое прошедшее (Pretérito Indefinido, изучается на А2), даже со словом "сегодня".</div>
+        
+        <h3>Образование: Haber (в настоящем) + Participio (Причастие)</h3>
+        <ul>
+            <li><strong>Haber</strong>: he, has, ha, hemos, habéis, han.</li>
+            <li><strong>Participio</strong>: глаголы на -ar -> <strong>-ado</strong> (hablado), на -er/-ir -> <strong>-ido</strong> (comido, vivido).</li>
+            <li><strong>Пример:</strong> Hoy he trabajado mucho. <span class="ru-text">(Сегодня я много работал).</span></li>
+        </ul>
+
+        <h3>Неправильные причастия (надо выучить):</h3>
+        <ul>
+            <li><strong>abrir</strong> -> abierto <span class="ru-text">(открыто)</span></li>
+            <li><strong>decir</strong> -> dicho <span class="ru-text">(сказано)</span></li>
+            <li><strong>escribir</strong> -> escrito <span class="ru-text">(написано)</span></li>
+            <li><strong>hacer</strong> -> hecho <span class="ru-text">(сделано)</span></li>
+            <li><strong>poner</strong> -> puesto <span class="ru-text">(положено, надето)</span></li>
+            <li><strong>romper</strong> -> roto <span class="ru-text">(сломано)</span></li>
+            <li><strong>ver</strong> -> visto <span class="ru-text">(увидено)</span></li>
+            <li><strong>volver</strong> -> vuelto <span class="ru-text">(возвращено, вернулся)</span></li>
+        </ul>
+
+
+        <h2 class="section-title">8. Предлоги и Наречия (Preposiciones y Adverbios)</h2>
+        <h3>Предлоги местоположения:</h3>
+        <ul>
+            <li><strong>en:</strong> в / на. El libro está en la mesa. <span class="ru-text">(Книга на столе / в столе).</span></li>
+            <li><strong>debajo de:</strong> под. El gato está debajo de la silla. <span class="ru-text">(Кот под стулом).</span></li>
+            <li><strong>encima de:</strong> на (поверхности). Las llaves están encima de la mesa. <span class="ru-text">(Ключи на столе).</span></li>
+            <li><strong>al lado de:</strong> рядом с. El banco está al lado del cine. <span class="ru-text">(Банк рядом с кинотеатром).</span></li>
+            <li><strong>cerca de / lejos de:</strong> близко от / далеко от. Vivo cerca de aquí. <span class="ru-text">(Я живу близко отсюда).</span></li>
+            <li><strong>a la derecha / a la izquierda de:</strong> справа / слева от. Gira a la derecha. <span class="ru-text">(Поверни направо).</span></li>
+        </ul>
+
+        <h3>Muy vs Mucho:</h3>
+        <ul>
+            <li><strong>Muy</strong> <span class="ru-text">(очень)</span> + Прилагательное / Наречие: Es muy alto. Habla muy bien. <span class="ru-text">(Он очень высокий. Он говорит очень хорошо).</span></li>
+            <li><strong>Mucho/a/os/as</strong> <span class="ru-text">(много)</span> + Существительное: Tengo mucho trabajo. Hay muchas casas. <span class="ru-text">(У меня много работы. Есть много домов).</span></li>
+            <li><strong>Глагол + mucho</strong> <span class="ru-text">(много делает)</span>: Trabajo mucho. <span class="ru-text">(Я много работаю).</span></li>
+        </ul>
+
+
+        <h2 class="section-title">9. Время и Даты (La hora y Las fechas)</h2>
+        <h3>Время (La hora):</h3>
+        <ul>
+            <li><strong>¿Qué hora es?</strong> <span class="ru-text">(Который час?)</span></li>
+            <li><strong>1:00</strong> - Es la una.</li>
+            <li><strong>2:00 - 12:00</strong> - Son las dos / tres / diez.</li>
+            <li>Минуты до половины добавляем через <strong>"y"</strong>: 3:15 -> Son las tres y cuarto <span class="ru-text">(Три и четверть)</span>. 3:30 -> Son las tres y media <span class="ru-text">(Три и половина)</span>.</li>
+            <li>Минуты после половины отнимаем через <strong>"menos"</strong>: 3:45 -> Son las cuatro menos cuarto <span class="ru-text">(Без четверти четыре)</span>.</li>
+        </ul>
+
+        <h3>Дни недели (Los días de la semana):</h3>
+        <p>
+            lunes <span class="ru-text">(пн)</span>, martes <span class="ru-text">(вт)</span>, miércoles <span class="ru-text">(ср)</span>, jueves <span class="ru-text">(чт)</span>, viernes <span class="ru-text">(пт)</span>, sábado <span class="ru-text">(сб)</span>, domingo <span class="ru-text">(вс)</span>.
+            <br><em>Всегда используются с мужским артиклем: el lunes <span class="ru-text">(в понедельник)</span>, los lunes <span class="ru-text">(по понедельникам)</span>.</em>
+        </p>
+
+
+        <h2 class="section-title">10. Коммуникация (Pragmática)</h2>
+        <h3>Согласие с утверждением:</h3>
+        <ul>
+            <li>Me gusta la pizza. -> <strong>A mí también.</strong> <span class="ru-text">(Мне тоже).</span></li>
+            <li>No me gusta el frío. -> <strong>A mí tampoco.</strong> <span class="ru-text">(Мне тоже нет).</span></li>
+            <li>Yo soy ruso. -> <strong>Yo también.</strong> <span class="ru-text">(Я тоже).</span></li>
+            <li>Yo no hablo chino. -> <strong>Yo tampoco.</strong> <span class="ru-text">(Я тоже нет).</span></li>
+        </ul>
+        
+        <h3>Несогласие:</h3>
+        <ul>
+            <li>Me gusta la pizza. -> <strong>A mí no.</strong> <span class="ru-text">(А мне нет).</span></li>
+            <li>No me gusta el frío. -> <strong>A mí sí.</strong> <span class="ru-text">(А мне да).</span></li>
+        </ul>
+
+        <h3>В ресторане / баре:</h3>
+        <ul>
+            <li><strong>Para mí, un café.</strong> <span class="ru-text">(Мне кофе).</span></li>
+            <li><strong>¿Qué va a tomar?</strong> <span class="ru-text">(Что будете пить/есть?).</span></li>
+            <li><strong>La cuenta, por favor.</strong> <span class="ru-text">(Счет, пожалуйста).</span></li>
+        </ul>
+
+        <h3>В магазине:</h3>
+        <ul>
+            <li><strong>¿Cuánto cuesta? / ¿Cuánto vale?</strong> <span class="ru-text">(Сколько стоит?).</span></li>
+            <li><strong>¿Tienen una talla más grande?</strong> <span class="ru-text">(У вас есть размер побольше?).</span></li>
+            <li><strong>Quería... / Me gustaría...</strong> <span class="ru-text">(Я бы хотел...).</span></li>
+        </ul>
+    </div>
+
+</body>
+          </html>
